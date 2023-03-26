@@ -4,6 +4,7 @@ import 'firebase/compat/auth';
 import { useEffect, useState } from 'react'
 import { useFunctions } from "@/hooks/useFunctions";
 import { useAuth } from "@/context/AuthContext";
+import { Layout } from "@/layouts/Layout";
 
 export default function Home(props) {
   const { data } = props
@@ -16,8 +17,6 @@ export default function Home(props) {
 
   const [products, setProducts] = useState([])
 
-  console.log(functions?.loaded)
-
   useEffect(() => {
     if (fetchProducts) {
       fetchProducts().then((data) => {
@@ -28,18 +27,21 @@ export default function Home(props) {
 console.log(products)
  return (
     <>
-      <h1>hola</h1>
-      <button 
-        onClick={() => {
-          functions?.handleRegisterProduct({
-            name: 'prueba',
-            price: 9000
-          })
-        }}
-      >
-        Subir datos
-      </button>
-      <button onClick={loginWithGoogle}>Login</button>
+      <Layout >
+        <h1>hola</h1>
+        <button 
+          onClick={() => {
+            functions?.handleRegisterProduct({
+              name: 'prueba',
+              price: 9000,
+              type: "xd"
+            })
+          }}
+        >
+          Subir datos
+        </button>
+        <button onClick={loginWithGoogle}>Login</button>
+      </Layout>
     </>
   )
 }

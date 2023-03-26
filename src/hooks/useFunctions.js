@@ -1,13 +1,14 @@
 import firebase from "firebase/compat/app"
 import "firebase/compat/firestore"
 import 'firebase/compat/auth';
+import 'firebase/compat/storage'
+
 import { useAuth } from "@/context/AuthContext";
-import { useState } from "react";
 
 export const useFunctions = ({data} = {data: null}) => {
     const { currentUser } = useAuth()
 
-    const userCredentials = data.find((user) => user.userId === currentUser?.uid)
+    const userCredentials = data?.find((user) => user.userId === currentUser?.uid)
     let loaded = false
 
     if (userCredentials) {
@@ -43,11 +44,15 @@ export const useFunctions = ({data} = {data: null}) => {
                 .catch(err => console.log(err))
         }
 
+        const getStorage = () => secondaryFirebaseApp.storage()
+
         return {
             loaded,
             fetchProducts,
-            handleRegisterProduct
+            handleRegisterProduct,
+            getStorage
         }
+
     } else {
         return {
             loaded
