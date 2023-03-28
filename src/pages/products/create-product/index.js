@@ -6,6 +6,7 @@ import { Multimedia } from "@/components/PageCreateProduct/Multimedia/Multimedia
 import { useFunctions } from "@/hooks/useFunctions";
 import { Price } from "@/components/PageCreateProduct/Price/Price";
 import { Stock } from "@/components/PageCreateProduct/Stock/Stock";
+import { Options } from "@/components/PageCreateProduct/Options/Options";
 
 export default function CreateProduct(props) {
     const { data } = props
@@ -21,7 +22,8 @@ export default function CreateProduct(props) {
         handleOnChange,
         handleOnChangeImg,
         handleDeleteImg,
-        handleSaleWithoutStock
+        handleSaleWithoutStock,
+        handleOptions
     } = useFormProduct({getStorage: getStorage})
 
     console.log(formProduct)
@@ -47,6 +49,9 @@ export default function CreateProduct(props) {
                     <Stock
                         onChange={handleOnChange}
                         handleSaleWithoutStock={handleSaleWithoutStock}
+                    />
+                    <Options
+                        onChange={handleOptions}
                     />
                 </div>
             </div>

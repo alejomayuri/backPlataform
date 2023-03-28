@@ -18,6 +18,8 @@ export default function Products(props) {
         }
     )}}, [functions?.loaded])
 
+    console.log(products)
+
     return (
         <Layout>
             <div className="container">

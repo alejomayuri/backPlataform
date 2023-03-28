@@ -7,7 +7,8 @@ export default function useFormProduct({
     description,
     price,
     comparisonPrice,
-    stock
+    stock,
+    options
 }={}) {
     const FORM_STATE = {
         name: name,
@@ -18,6 +19,7 @@ export default function useFormProduct({
         comparisonPrice: comparisonPrice,
         stock: stock,
         saleWithoutStock: false,
+        options: options
     }
 
     const [formProduct, setFormProduct] = useState(FORM_STATE)
@@ -81,6 +83,13 @@ export default function useFormProduct({
         })
     }
 
+    const handleOptions = (options) => {
+        setFormProduct({
+            ...formProduct,
+            options: options
+        })
+    }
+
     return {
         formProduct,
         showProgress,
@@ -90,6 +99,7 @@ export default function useFormProduct({
         handleOnChange,
         handleOnChangeImg,
         handleDeleteImg,
-        handleSaleWithoutStock
+        handleSaleWithoutStock,
+        handleOptions
     }
 }

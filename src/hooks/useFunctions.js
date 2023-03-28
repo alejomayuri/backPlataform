@@ -9,6 +9,8 @@ export const useFunctions = ({data} = {data: null}) => {
     const { currentUser } = useAuth()
 
     const userCredentials = data?.find((user) => user.userId === currentUser?.uid)
+    // console.log(currentUser)
+    // console.log(data)
     let loaded = false
 
     if (userCredentials) {

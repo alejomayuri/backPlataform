@@ -4,42 +4,42 @@
     align-items: center;
     justify-content: center;
     width: 500px;
-    padding: 16px;
+    /* padding: 16px; */
     border: solid 1px #000;
     border-radius: 8px;
 }
 
-.container h3 {
+.title {
     margin-bottom: 8px;
     font-size: 15px;
     color: #545454;
     font-weight: 600;
     width: 100%;
+    padding: 16px;
+    padding-bottom: 0;
 }
 
-.container div {
+.container > div {
     width: 100%;
 }
 
-.stockWrapper input {
-    width: 100%;
-    padding: 8px;
-    border: solid 1px #000;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px;
-}
-
-.noStock {
+.theseProductsHaveOptions {
     display: flex;
     align-items: center;
     border-radius: 8px;
     margin-top: 16px;
+    padding: 0 16px;
 }
 
-.noStock input {
+.theseProductsHaveOptions input {
     margin-right: 8px;
     cursor: pointer;
     height: 20px;
     width: 20px;
+}
+
+.optionsWrapper {
+    padding: 16px 0;
+    margin: 16px 0;
+    border-top: solid 1px;
 }
