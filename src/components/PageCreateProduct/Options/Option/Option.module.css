@@ -1,7 +1,6 @@
 .option {
     display: flex;
     width: 100%;
-    margin-bottom: 16px;
     flex-direction: column;
     padding: 16px;
     border-bottom: solid 1px #000;
@@ -29,9 +28,9 @@
     font-size: 16px;
 }
 
-.value {
+/* .value {
     margin-bottom: 8px;
-}
+} */
 
 .optionDelete {
     display: flex;
@@ -54,4 +53,22 @@
 
 .hide {
     display: none;
+}
+
+.deleteValue {
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    height: 25px;
+    align-items: center;
+}
+
+.valueWrapper {
+    display: flex;
+    margin-bottom: 8px;
+    align-items: center;
+    justify-self: center;
 }

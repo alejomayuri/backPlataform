@@ -39,7 +39,35 @@
 }
 
 .optionsWrapper {
-    padding: 16px 0;
-    margin: 16px 0;
     border-top: solid 1px;
+}
+
+.buttonsWrapper {
+    display: flex;
+    justify-content: flex-start;
+    padding: 16px;
+}
+
+.buttonsWrapper button {
+    padding: 0px 16px;
+    border: solid 1px #000;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 8px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.buttonsWrapper button span:first-of-type {
+    font-size: 32px;
+}
+
+.buttonsWrapper button:hover {
+    background-color: #000;
+    color: #fff;
 }

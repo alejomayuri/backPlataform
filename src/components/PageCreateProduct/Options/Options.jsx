@@ -40,7 +40,7 @@ const Options = ({ onChange }) => {
         setOptions(newOptions)
     }, [options])
 
-    console.log("options", options)
+    // console.log("options", options)
     useEffect(() => {
         onChange(options)
     }, [options])
@@ -72,8 +72,11 @@ const Options = ({ onChange }) => {
                             />
                         ))}
                     </div>
-                    <div>
-                        <button onClick={handleNewOption}>Agregar opción</button>
+                    <div className={style.buttonsWrapper}>
+                        <button onClick={handleNewOption}>
+                            <span>+</span>
+                            <span>Agregar otra opción</span>
+                        </button>
                     </div>
                 </>
             )}

@@ -1,5 +1,4 @@
 import { Layout } from "@/layouts/Layout";
-import { useState } from "react";
 import { TitleAndDescription } from "@/components/PageCreateProduct/TitleAndDescription/TitleAndDescription";
 import useFormProduct from "@/hooks/useFormProduct";
 import { Multimedia } from "@/components/PageCreateProduct/Multimedia/Multimedia";
@@ -7,6 +6,9 @@ import { useFunctions } from "@/hooks/useFunctions";
 import { Price } from "@/components/PageCreateProduct/Price/Price";
 import { Stock } from "@/components/PageCreateProduct/Stock/Stock";
 import { Options } from "@/components/PageCreateProduct/Options/Options";
+import { Variations } from "@/components/PageCreateProduct/Variations/Variations";
+import { State } from "@/components/PageCreateProduct/State/State";
+import { Organization } from "@/components/PageCreateProduct/Organization/Organization";
 
 export default function CreateProduct(props) {
     const { data } = props
@@ -23,7 +25,9 @@ export default function CreateProduct(props) {
         handleOnChangeImg,
         handleDeleteImg,
         handleSaleWithoutStock,
-        handleOptions
+        handleOptions,
+        handleVariations,
+        handleOnChangeState
     } = useFormProduct({getStorage: getStorage})
 
     console.log(formProduct)
@@ -53,6 +57,20 @@ export default function CreateProduct(props) {
                     <Options
                         onChange={handleOptions}
                     />
+                    {
+                        formProduct?.options?.length > 0 && (
+                            <Variations
+                                options={formProduct?.options || []}
+                                onChange={handleVariations}
+                            />  
+                        )
+                    }
+                </div>
+                <div>
+                    <State
+                        onChange={handleOnChangeState}
+                    />
+                    <Organization />
                 </div>
             </div>
         </Layout>

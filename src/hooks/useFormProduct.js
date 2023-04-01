@@ -8,7 +8,8 @@ export default function useFormProduct({
     price,
     comparisonPrice,
     stock,
-    options
+    options,
+    variations
 }={}) {
     const FORM_STATE = {
         name: name,
@@ -19,7 +20,9 @@ export default function useFormProduct({
         comparisonPrice: comparisonPrice,
         stock: stock,
         saleWithoutStock: false,
-        options: options
+        options: options,
+        variations: variations,
+        active: false
     }
 
     const [formProduct, setFormProduct] = useState(FORM_STATE)
@@ -90,6 +93,20 @@ export default function useFormProduct({
         })
     }
 
+    const handleVariations = (variations) => {
+        setFormProduct({
+            ...formProduct,
+            variations: variations
+        })
+    }
+
+    const handleOnChangeState = (boolean) => {
+        setFormProduct({
+            ...formProduct,
+            active: boolean
+        })
+    }
+
     return {
         formProduct,
         showProgress,
@@ -100,6 +117,8 @@ export default function useFormProduct({
         handleOnChangeImg,
         handleDeleteImg,
         handleSaleWithoutStock,
-        handleOptions
+        handleOptions,
+        handleVariations,
+        handleOnChangeState
     }
 }

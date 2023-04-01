@@ -1,21 +1,12 @@
 import style from './Option.module.css'
 import { useState, useEffect } from 'react'
+import DeleteIcon from '@/components/global/icons/DeleteIcon';
 
 const Option = ({ optionId, optionName, onChange, handleDeleteOptions, optionValues }) => {
-    // const getInitialInputs = () => {
-    //     if (!(optionValues.length === 1 && optionValues[0] === "")) {
-    //         return optionValues.map((value, index) => ({ id: index + 1, value }))
-    //     }
-    //     return [{ id: 1, value: "" }]
-    // }
-    // console.log("optionValues", optionValues)
-    // console.log("getInitialInputs", getInitialInputs())
     const [inputs, setInputs] = useState([{ id: 1, value: "" }]);
     const values = inputs.map(input => input.value);
     const [name, setName] = useState("");
     const [hideThisOption, setHideThisOption] = useState(false);
-    // console.log("inputs",inputs);
-    // console.log(values);
 
     const handleName = (e) => {
         setName(e.target.value)
@@ -46,9 +37,11 @@ const Option = ({ optionId, optionName, onChange, handleDeleteOptions, optionVal
 
     const handleDelete = () => {
         handleDeleteOptions(optionId)
-        // setInputs(optionValues.map((value, index) => ({ id: index + 1, value })))
-        // onChange(optionId, name, values)
         setHideThisOption(true)
+    }
+
+    const handleDeleteOption = (id) => {
+        setInputs(inputs.filter(input => input.id !== id))
     }
 
     return (
@@ -60,14 +53,23 @@ const Option = ({ optionId, optionName, onChange, handleDeleteOptions, optionVal
             <div className={style.optionValue}>
                 <label htmlFor="options">Valores de la opción</label>
                 {inputs.map(input => (
-                    <input
-                        key={input.id}
-                        // value={input.value}
-                        onChange={e => handleInputChange(input.id, e.target.value)}
-                        name="values_option"
-                        className={style.value}
-                        placeholder={input.id === 1 ? "Rojo" : "Agregar otro valor"}
-                    />
+                    <div className={style.valueWrapper} key={input.id}>
+                        <input
+                            key={input.id}
+                            // value={input.value}
+                            onChange={e => handleInputChange(input.id, e.target.value)}
+                            name="values_option"
+                            className={style.value}
+                            placeholder={input.id === 1 ? "Rojo" : "Agregar otro valor"}
+                        />
+                        {
+                            input.value !== "" && (
+                                <button onClick={() => handleDeleteOption(input.id)} className={style.deleteValue}>
+                                    <DeleteIcon width="25px" height="25px" />
+                                </button>
+                            )
+                        }
+                    </div>
                 ))}
             </div>
             <div className={style.optionDelete}>
