@@ -48,7 +48,12 @@ const Option = ({ optionId, optionName, onChange, handleDeleteOptions, optionVal
         <div className={`${style.option} ${hideThisOption ? style.hide : ""}`}>
             <div className={style.optionName}>
                 <label htmlFor="options">Nombre de la opción</label>
-                <input type="text" name="name_option" placeholder="Color" onChange={handleName} />
+                <div className={style.valueWrapper}>
+                    <input type="text" name="name_option" placeholder="Color" onChange={handleName} />
+                    <button onClick={handleDelete} className={style.deleteValue}>
+                        <DeleteIcon stroke={"#c1c1c1"} width="23px" height="22px" />
+                    </button>
+                </div>
             </div>
             <div className={style.optionValue}>
                 <label htmlFor="options">Valores de la opción</label>
@@ -65,15 +70,12 @@ const Option = ({ optionId, optionName, onChange, handleDeleteOptions, optionVal
                         {
                             input.value !== "" && (
                                 <button onClick={() => handleDeleteOption(input.id)} className={style.deleteValue}>
-                                    <DeleteIcon width="25px" height="25px" />
+                                    <DeleteIcon stroke={"#c1c1c1"} width="23px" height="22px" />
                                 </button>
                             )
                         }
                     </div>
                 ))}
-            </div>
-            <div className={style.optionDelete}>
-                <button onClick={handleDelete}>Eliminar opción</button>
             </div>
         </div>
     )

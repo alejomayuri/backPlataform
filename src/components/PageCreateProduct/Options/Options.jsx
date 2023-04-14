@@ -1,4 +1,5 @@
 import style from './Options.module.css'
+import { BoxLayout } from "../BoxLayout/BoxLayout";
 import { useState, useCallback, useEffect } from 'react'
 import { Option } from './Option/Option'
 
@@ -51,14 +52,13 @@ const Options = ({ onChange }) => {
     }
 
     return (
-        <div className={style.container}>
-            <h3 className={style.title}>Opciones</h3>
+        <BoxLayout title="Opciones">
+            {/* <h3 className={style.title}>Opciones</h3> */}
             <div className={style.theseProductsHaveOptions}>
-                <input type="checkbox" name="theseProductsHaveOptions" 
-                    onChange={handleHaveOptions}
-                />
-            
-                <label htmlFor="saleWithoutStock">Este producto tiene opciones, como talla y color</label>
+                <div>
+                    <input type="checkbox" name="theseProductsHaveOptions" onChange={handleHaveOptions} />
+                    <label htmlFor="saleWithoutStock">Este producto tiene opciones, como talla y color</label>
+                </div>
             </div>
             {theseProductsHaveOptions && (
                 <>
@@ -80,7 +80,7 @@ const Options = ({ onChange }) => {
                     </div>
                 </>
             )}
-        </div>
+        </BoxLayout>
     )
 }
 

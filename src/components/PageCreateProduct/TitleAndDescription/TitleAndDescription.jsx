@@ -1,8 +1,8 @@
-import style from "./TitleAndDescription.module.css";
+import { BoxLayout } from "../BoxLayout/BoxLayout";
 
 const TitleAndDescription = ({ onChange }) => {
     return (
-        <div className={style.container}>
+        <BoxLayout>
             <div>
                 <h3>Nombre</h3>
                 <input
@@ -18,7 +18,7 @@ const TitleAndDescription = ({ onChange }) => {
                     name="description"
                 />
             </div>
-        </div>
+        </BoxLayout>
     );
 }
 

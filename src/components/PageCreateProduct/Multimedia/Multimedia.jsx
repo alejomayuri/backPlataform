@@ -1,10 +1,11 @@
 import style from "./Multimedia.module.css";
+import { BoxLayout } from "../BoxLayout/BoxLayout";
 import UploadImage from "@/components/global/icons/UploadImage";
 
 const Multimedia = ({ prevImage, showProgress, uploatValue, onChange, handleDeleteImg }) => {
     return (
-        <div className={style.container}>
-            <h3>Elementos multimedia</h3>
+        // <div className={style.container}>
+        <BoxLayout title="Elementos multimedia">
             <div className={style.prevImageWrapper}>
                 <div>
                     {!prevImage && (
@@ -30,7 +31,8 @@ const Multimedia = ({ prevImage, showProgress, uploatValue, onChange, handleDele
                 )}
                 
             </div>
-        </div>
+        </BoxLayout>
+        // </div>
     )
 }
 

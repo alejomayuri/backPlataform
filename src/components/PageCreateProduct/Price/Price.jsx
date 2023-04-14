@@ -1,9 +1,11 @@
 import style from "./Price.module.css";
+import { BoxLayout } from "../BoxLayout/BoxLayout";
 
 const Price = ({ onChange }) => {
     return (
-        <div className={style.container}>
-            <h3>Precio</h3>
+        // <div className={style.container}>
+        <BoxLayout title="Precio">
+            {/* <h3>Precio</h3> */}
             <div className={style.priceWrapper}>
                 <div>
                     <h3>Precio</h3>
@@ -35,7 +37,15 @@ const Price = ({ onChange }) => {
                     />
                 </div>
             </div>
-        </div>
+            <p className="info">
+                El <b>precio de comparación</b> se muestra en la página del producto y se
+                tacha para mostrar el precio actual. En caso de una oferta, el precio
+                de comparación debe ser mayor que el precio actual. Si no hay precio de
+                comparación, no se mostrará.
+                <br />
+                Si el prducto tiene un precio variable, puedes dejar el precio en blanco.
+            </p>
+        </BoxLayout>
     );
 }
 

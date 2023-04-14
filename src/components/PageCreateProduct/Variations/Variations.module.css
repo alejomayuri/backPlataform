@@ -6,7 +6,7 @@
 .variationInfo {
     display: flex;
     gap: 8px;
-    width: 163px;
+    width: 170px;
     justify-content: space-between;
 }
 
@@ -57,9 +57,13 @@
     display: flex;
     align-items: center;
     width: 100%;
-    border-top: solid 1px #000;
-    padding: 16px 20px;
+    border-top: solid 1px #c1c1c1;
+    padding: 16px 24px 0 24px;
     justify-content: space-between;
+}
+
+.element p {
+    margin-top: 0 !important;
 }
 
 .infoElement {
@@ -69,7 +73,7 @@
 .infoElement input {
     width: 100%;
     height: 100%;
-    border: solid 1px #000;
+    border: solid 1px #c1c1c1;
     border-radius: 4px;
     padding: 4px;
 }

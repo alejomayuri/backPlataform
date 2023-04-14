@@ -9,20 +9,24 @@ export default function useFormProduct({
     comparisonPrice,
     stock,
     options,
-    variations
+    variations,
+    categories,
+    subcategory
 }={}) {
     const FORM_STATE = {
-        name: name,
-        description: description,
-        image: image,
+        name: null,
+        description: null,
+        image: null,
         currency: "PEN",
-        price: price,
-        comparisonPrice: comparisonPrice,
-        stock: stock,
+        price: null,
+        comparisonPrice: null,
+        stock: null,
         saleWithoutStock: false,
-        options: options,
-        variations: variations,
-        active: false
+        options: null,
+        variations: null,
+        active: false,
+        categories: null,
+        subcategory: null
     }
 
     const [formProduct, setFormProduct] = useState(FORM_STATE)
@@ -107,18 +111,27 @@ export default function useFormProduct({
         })
     }
 
+    const handleCategories = (cat) => {
+        setFormProduct({
+            ...formProduct,
+            categories: cat
+        })
+    }
+
     return {
         formProduct,
         showProgress,
         uploatValue,
         prevImage,
         disabledButton,
+        setDisabledButton,
         handleOnChange,
         handleOnChangeImg,
         handleDeleteImg,
         handleSaleWithoutStock,
         handleOptions,
         handleVariations,
-        handleOnChangeState
+        handleOnChangeState,
+        handleCategories
     }
 }

@@ -1,4 +1,5 @@
 import style from "./Variations.module.css"
+import { BoxLayout } from "../BoxLayout/BoxLayout";
 import { useEffect, useState } from "react"
 
 const Variations = ({ options, onChange }) => {
@@ -17,16 +18,15 @@ const Variations = ({ options, onChange }) => {
         }
         return combinations;
     }
+
     const arrays = options.map(option => option.values)
     const parseArrays = arrays.map(array => array.filter(el => el !== ""))
-        
     const combinations = generateCombinations(parseArrays);
-
     const variations = combinations.map(combination => {    
         const variation = {
             name: combination.join(" / "),
-            price: 0,
-            stock: 0,
+            price: '0',
+            stock: '0',
             options: combination.map((value, index) => {
                 return {
                     name: options[index].name,
@@ -39,7 +39,7 @@ const Variations = ({ options, onChange }) => {
 
     const [variationsState, setVariationsState] = useState(variations)
 
-   useEffect(() => {
+    useEffect(() => {
          setVariationsState(variations)
     }, [options])
 
@@ -54,18 +54,16 @@ const Variations = ({ options, onChange }) => {
                     }
                 }
                 return variation
-
             })
         )
     }
-    console.log("variations", variationsState)
 
     useEffect(() => {
         onChange(variationsState)
     }, [variationsState])
+
     return (
-        <div className={style.container}>
-            <h3 className={style.title}>Variaciones</h3>
+        <BoxLayout title="Variaciones">
             <div className={style.topLeyend}>
                 <p>Variación</p>
                 <p>Precio</p>
@@ -94,9 +92,10 @@ const Variations = ({ options, onChange }) => {
                                 <input 
                                 onChange={
                                     (e) => handleChange(e, index)
-                                } 
-                                type="number" 
-                                name="price"
+                                }
+                                    type="number" 
+                                    name="price"
+                                    value={variationsState[index]?.price}
                                 />
                             </div>
                             <div className={style.infoElement}>
@@ -106,13 +105,14 @@ const Variations = ({ options, onChange }) => {
                                 }
                                     type="number"
                                     name="stock"
+                                    value={variationsState[index]?.stock}
                                 />
                             </div>
                         </div>
                     </div>
                 )
             })}
-        </div>
+        </BoxLayout>
     )
 }
 

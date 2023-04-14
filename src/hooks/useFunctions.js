@@ -2,15 +2,17 @@ import firebase from "firebase/compat/app"
 import "firebase/compat/firestore"
 import 'firebase/compat/auth';
 import 'firebase/compat/storage'
+import { useRouter } from "next/router";
 
 import { useAuth } from "@/context/AuthContext";
 
 export const useFunctions = ({data} = {data: null}) => {
     const { currentUser } = useAuth()
 
+    const router = useRouter()
+
     const userCredentials = data?.find((user) => user.userId === currentUser?.uid)
-    // console.log(currentUser)
-    // console.log(data)
+
     let loaded = false
 
     if (userCredentials) {
@@ -23,7 +25,7 @@ export const useFunctions = ({data} = {data: null}) => {
 
         const fetchProducts = () => {
             return db
-            .collection("products")
+            .collection("prueba")
             .get()
             .then(({ docs }) => {
                 return docs.map((doc) => {
@@ -38,10 +40,15 @@ export const useFunctions = ({data} = {data: null}) => {
             )
         })}
 
-        const handleRegisterProduct = (form) => {
+        const redirect = (url) => {
+            router.push(url)
+        }
+
+        const handleRegisterProduct = (form, url) => {
             db.collection('prueba').add(form)
                 .then((res) => {
                     console.log(res)
+                    redirect(url)
                 })
                 .catch(err => console.log(err))
         }

@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { Header } from '@/components/global/Header/Header'
 import { MainMenu } from '@/components/global/MainMenu/MainMenu'
 
-const Layout = ({ children }) => {
+const Layout = ({ children, title }) => {
     return (
         <>
             <Head>

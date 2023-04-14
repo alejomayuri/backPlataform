@@ -1,7 +1,6 @@
 import { ProductsDisplayer } from "@/components/PageProducts/ProductsDisplayer/ProductsDisplayer"
 import { useEffect, useState } from 'react'
 import { useFunctions } from "@/hooks/useFunctions";
-import { CreateProductForm } from "@/components/PageProducts/CreateProductForm/CreateProductForm";
 import { Layout } from "@/layouts/Layout";
 
 export default function Products(props) {
@@ -9,7 +8,6 @@ export default function Products(props) {
     const [products, setProducts] = useState([])
     const functions = useFunctions({data})
     const fetchProducts = functions?.fetchProducts;
-    const handleCreateProduct = functions?.handleRegisterProduct;
 
     useEffect(() => {
         if (fetchProducts) {
@@ -22,9 +20,9 @@ export default function Products(props) {
 
     return (
         <Layout>
-            <div className="container">
+            <div className="content__wrapper_big">
+                <h1>Productos</h1>
                 <ProductsDisplayer products={products} />
-                <CreateProductForm handleCreateProduct={handleCreateProduct} />
             </div>
         </Layout>
     )

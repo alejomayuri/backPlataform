@@ -1,4 +1,5 @@
 import style from './State.module.css'
+import { BoxLayout } from "../BoxLayout/BoxLayout";
 import { useState } from 'react'
 
 const State = ({ onChange }) => {
@@ -14,11 +15,8 @@ const State = ({ onChange }) => {
         }
     }
 
-    console.log("state", state)
-
     return (
-        <div className={style.container}>
-            <h3 className={style.title}>Estado del producto</h3>
+        <BoxLayout small title="Estado del producto">
             <div className={style.state}>
                 <div className={style.stateWrapper}>
                     <select name="state" id="state" onChange={handleChange}>
@@ -26,7 +24,7 @@ const State = ({ onChange }) => {
                         <option value="active">Activo</option>
                     </select>
                 </div>
-                <p>
+                <p className="info">
                     {
                         state === "inactive" ? (
                             "El producto no se mostrará en la tienda"
@@ -36,7 +34,7 @@ const State = ({ onChange }) => {
                     }
                 </p>
             </div>
-        </div>
+        </BoxLayout>
     )
 }
 
