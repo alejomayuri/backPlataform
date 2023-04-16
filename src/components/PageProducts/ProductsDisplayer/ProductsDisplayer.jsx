@@ -2,13 +2,12 @@ import style from './ProductsDisplayer.module.css';
 import { Product } from "@/components/global/Product/Product";
 import { useEffect, useState } from "react";
 
-const ProductsDisplayer = ({ products }) => {
+const ProductsDisplayer = ({ products, editProduct }) => {
     const [productsToDisplay, setProductsToDisplay] = useState([]);
 
     useEffect(() => {
         products.map((product) => {
             if (product?.variations?.length > 0) {
-                console.log("product.variations", product.variations)
                 product.variations.map((variation) => {
                     setProductsToDisplay((prevState) => [
                         ...prevState,
@@ -20,8 +19,6 @@ const ProductsDisplayer = ({ products }) => {
             }
         });
     }, [products]);
-
-    console.log("productsToDisplay", productsToDisplay)
 
     return (
             <div className={style.header}>
@@ -41,7 +38,7 @@ const ProductsDisplayer = ({ products }) => {
                     </div>
                 </div>
             {productsToDisplay?.map((product) => (
-                <Product key={product.id} product={product} />
+                <Product key={product.id} product={product} editProduct={editProduct} />
             ))}
         </div>
     );

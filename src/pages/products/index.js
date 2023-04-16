@@ -8,6 +8,7 @@ export default function Products(props) {
     const [products, setProducts] = useState([])
     const functions = useFunctions({data})
     const fetchProducts = functions?.fetchProducts;
+    const editProduct = functions?.editProduct;
 
     useEffect(() => {
         if (fetchProducts) {
@@ -16,13 +17,11 @@ export default function Products(props) {
         }
     )}}, [functions?.loaded])
 
-    console.log(products)
-
     return (
         <Layout>
             <div className="content__wrapper_big">
                 <h1>Productos</h1>
-                <ProductsDisplayer products={products} />
+                <ProductsDisplayer products={products} editProduct={editProduct} />
             </div>
         </Layout>
     )
