@@ -55,13 +55,12 @@ export const useFunctions = ({data} = {data: null}) => {
 
         const getStorage = () => secondaryFirebaseApp.storage()
 
-        const editProduct = (id, form, url) => {
-            db.collection('prueba').doc(id).update(form)
-                .then((res) => {
-                    console.log(res)
-                    redirect(url)
-                })
-                .catch(err => console.log(err))
+        const editProduct = (id, form) => {
+            return db.collection('prueba').doc(id).update(form)
+        //         .then((res) => {
+        //             console.log(res)
+        //         })
+        //         .catch(err => console.log(err))
         }
 
         return {

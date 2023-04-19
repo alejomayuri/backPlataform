@@ -65,4 +65,49 @@
     border-radius: 8px;
     font-size: 14px;
     text-align: center;
+    outline:none;
+}
+
+.edit__product {
+    display: flex;
+    align-items: center;
+}
+
+.edit__product button {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: solid 2px #e1e1e1;
+    /* box-shadow: 0 0 2px 0px #d9d8d8; */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.edit__product button:hover {
+    background: #f0f0f0;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 999;
+}
+
+.message p {
+    max-width: 500px;
+    margin: 0;
+    font-size: 18px;
+    background-color: green;
+    padding: 16px;
+    border-radius: 8px;
+    width: 100%;
 }

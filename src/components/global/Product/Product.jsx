@@ -1,9 +1,13 @@
 import style from './Product.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import EditIcon from '../icons/Edit';
 
 const Product = ({ product, editProduct }) => {
-    const [price, setPrice] = useState(product?.variation ? product?.variation.price : product?.price);
-    const [stock, setStock] = useState(product?.variation ? product?.variation.stock : product?.stock);
+    const PRODUCT_PRICE = product?.variation ? product?.variation.price : product?.price;
+    const PRODUCT_STOCK = product?.variation ? product?.variation.stock : product?.stock;
+    const [price, setPrice] = useState(PRODUCT_PRICE);
+    const [stock, setStock] = useState(PRODUCT_STOCK);
+
     const productWithouVariation = (product) => {
         const productToUpdate = {...product}
         if(productToUpdate?.variation) {
@@ -13,12 +17,20 @@ const Product = ({ product, editProduct }) => {
             return productToUpdate
         }
     }
-    
+
+    const [showMessage, setShowMessage] = useState(false);
+
+    const handleShowMessage = () => {
+        setShowMessage(true);
+        setTimeout(() => {
+            setShowMessage(false);
+        }, 3000);
+    };
+
     const [productToUpdate, setProductToUpdate] = useState(
         productWithouVariation(product)
     );
     
-    console.log("productToUpdate", productToUpdate)
     const handlePrice = (e) => {
         setPrice(e.target.value);
         if(productToUpdate?.variations && productToUpdate?.variations?.length > 0) {
@@ -59,42 +71,75 @@ const Product = ({ product, editProduct }) => {
         }
     }
 
+    const [showEditButton, setShowEditButton] = useState(price !== PRODUCT_PRICE || stock !== PRODUCT_STOCK);
+
+    useEffect(() => {
+        setShowEditButton(price !== PRODUCT_PRICE || stock !== PRODUCT_STOCK);
+    }, [price, stock, PRODUCT_PRICE, PRODUCT_STOCK]);
+
     const haldleEditProduct = () => {
-        editProduct(product?.id, productToUpdate, '/products')
+        if (editProduct) {
+            editProduct(product?.id, productToUpdate)
+                .then(() => {
+                    handleShowMessage()
+                    setShowEditButton(false);
+                })
+        }
     }
 
     return (
-        <div className={style.product}>
-            <div className={style.product__image}>
-                <img src={product?.image} alt={product?.name} />
-            </div>
-            <div className={style.product__name}>
-                <h3>{product?.name}</h3>
+        <>
+            {
+                showMessage && (
+                    <div className={style.message}>
+                        {
+                            product?.variation ? (
+                                <p>✏️ El producto <b>{product?.name}</b> - <b>{product?.variation.name}</b> se ha actualizado correctamente</p>
+                            ) : (
+                                <p>✏️ El producto <b>{product?.name}</b> se ha actualizado correctamente</p>
+                            )
+                        }
+                    </div>
+                )
+            }
+            <div className={style.product}>
+                <div className={style.product__image}>
+                    <img src={product?.image} alt={product?.name} />
+                </div>
+                <div className={style.product__name}>
+                    <h3>{product?.name}</h3>
+                    {
+                        product?.variation && (
+                            <p>{product?.variation.name}</p>
+                        )
+                    }
+                </div>
+                <div className={style.product__sku}>
+                    {
+                        product?.variation ? (
+                            <p>{`${product?.id} - ${product?.variation.name}`}</p>
+                        ) : (
+                            <p>{product?.id}</p>
+                        )
+                    }
+                </div>
+                <div className={style.product__price}>
+                    <input type="number" name='price' value={price} onChange={handlePrice}/>
+                </div>
+                <div className={style.product__stock}>
+                    <input type="number" name='stock' value={stock} onChange={handleStock} />
+                </div>
                 {
-                    product?.variation && (
-                        <p>{product?.variation.name}</p>
+                    showEditButton && (
+                        <div className={style.edit__product}>
+                            <button onClick={haldleEditProduct}>
+                                <EditIcon width="30px" height="30px" fill="#646464" />
+                            </button>
+                        </div>
                     )
                 }
             </div>
-            <div className={style.product__sku}>
-                {
-                    product?.variation ? (
-                        <p>{`${product?.id} - ${product?.variation.name}`}</p>
-                    ) : (
-                        <p>{product?.id}</p>
-                    )
-                }
-            </div>
-            <div className={style.product__price}>
-                <input type="number" name='price' value={price} onChange={handlePrice}/>
-            </div>
-            <div className={style.product__stock}>
-                <input type="number" name='stock' value={stock} onChange={handleStock} />
-            </div>
-            <div className={style.edit__product}>
-                <button onClick={haldleEditProduct}>Editar</button>
-            </div>
-        </div>
+        </>
     );
 }
 
