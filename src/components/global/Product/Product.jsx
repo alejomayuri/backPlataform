@@ -1,12 +1,13 @@
 import style from './Product.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import EditIcon from '../icons/Edit';
 
-const Product = ({ product, editProduct }) => {
-    const PRODUCT_PRICE = product?.variation ? product?.variation.price : product?.price;
-    const PRODUCT_STOCK = product?.variation ? product?.variation.stock : product?.stock;
-    const [price, setPrice] = useState(PRODUCT_PRICE);
-    const [stock, setStock] = useState(PRODUCT_STOCK);
+const Product = ({ product, editProduct, productPrice, productStock }) => {
+    const [price, setPrice] = useState(productPrice);
+    const [stock, setStock] = useState(productStock);
+
+    const priceRef = useRef(null);
+    const stockRef = useRef(null);
 
     const productWithouVariation = (product) => {
         const productToUpdate = {...product}
@@ -17,6 +18,10 @@ const Product = ({ product, editProduct }) => {
             return productToUpdate
         }
     }
+
+    useEffect(() => {
+        priceRef.current.value = productPrice
+    }, [productPrice])
 
     const [showMessage, setShowMessage] = useState(false);
 
@@ -30,9 +35,18 @@ const Product = ({ product, editProduct }) => {
     const [productToUpdate, setProductToUpdate] = useState(
         productWithouVariation(product)
     );
+
+    console.log("productToUpdate", productToUpdate)
+
+    useEffect(() => {
+        setProductToUpdate(productWithouVariation(productToUpdate))
+        setPrice(productPrice)
+        setStock(productStock)
+    }, [product, productPrice, productStock])
     
     const handlePrice = (e) => {
         setPrice(e.target.value);
+
         if(productToUpdate?.variations && productToUpdate?.variations?.length > 0) {
             const variation = productToUpdate?.variations.find(variation => 
                 variation.name === product?.variation.name
@@ -53,6 +67,7 @@ const Product = ({ product, editProduct }) => {
 
     const handleStock = (e) => {
         setStock(e.target.value);
+
         if(productToUpdate?.variations && productToUpdate?.variations?.length > 0) {
             const variation = productToUpdate?.variations.find(variation =>
                 variation.name === product?.variation.name
@@ -71,11 +86,11 @@ const Product = ({ product, editProduct }) => {
         }
     }
 
-    const [showEditButton, setShowEditButton] = useState(price !== PRODUCT_PRICE || stock !== PRODUCT_STOCK);
+    const [showEditButton, setShowEditButton] = useState(price !== productPrice || stock !== productStock);
 
     useEffect(() => {
-        setShowEditButton(price !== PRODUCT_PRICE || stock !== PRODUCT_STOCK);
-    }, [price, stock, PRODUCT_PRICE, PRODUCT_STOCK]);
+        setShowEditButton(price !== productPrice || stock !== productStock);
+    }, [price, stock, productPrice, productStock]);
 
     const haldleEditProduct = () => {
         if (editProduct) {
@@ -124,11 +139,12 @@ const Product = ({ product, editProduct }) => {
                     }
                 </div>
                 <div className={style.product__price}>
-                    <input type="number" name='price' value={price} onChange={handlePrice}/>
+                    <input ref={priceRef} type="number" name='price' onChange={handlePrice}/>
                 </div>
                 <div className={style.product__stock}>
-                    <input type="number" name='stock' value={stock} onChange={handleStock} />
+                    <input ref={stockRef} type="number" name='stock' value={stock} onChange={handleStock} />
                 </div>
+               
                 {
                     showEditButton && (
                         <div className={style.edit__product}>
@@ -137,7 +153,7 @@ const Product = ({ product, editProduct }) => {
                             </button>
                         </div>
                     )
-                }
+                } 
             </div>
         </>
     );

@@ -1,7 +1,7 @@
-import { ProductsDisplayer } from "@/components/PageProducts/ProductsDisplayer/ProductsDisplayer"
 import { useEffect, useState } from 'react'
 import { useFunctions } from "@/hooks/useFunctions";
 import { Layout } from "@/layouts/Layout";
+import { ProductsDisplayer } from "@/components/PageProducts/ProductsDisplayer/ProductsDisplayer"
 
 export default function Products(props) {
     const { data } = props

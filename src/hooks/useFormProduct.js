@@ -53,10 +53,10 @@ export default function useFormProduct({
             console.log(res)
             const imgUrl = res.ref.getDownloadURL()
             imgUrl.then(url => {
-                setFormProduct({
-                    ...formProduct,
+                setFormProduct((prevState) => ({
+                    ...prevState,
                     image: url
-                })
+                }))
                 setPrevImage(url)
                 setUploadValue(100)
                 setDisabledButton(false)

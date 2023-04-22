@@ -40,6 +40,22 @@ export const useFunctions = ({data} = {data: null}) => {
             )
         })}
 
+        const fetchSingleProduct = (id) => {
+            return db
+            .collection("prueba")
+            .doc(id)
+            .get()
+            .then((doc) => {
+                const data = doc.data()
+                const id = doc.id
+
+                return {
+                    ...data,
+                    id
+                }
+            })
+        }
+
         const redirect = (url) => {
             router.push(url)
         }
@@ -68,7 +84,8 @@ export const useFunctions = ({data} = {data: null}) => {
             fetchProducts,
             handleRegisterProduct,
             getStorage,
-            editProduct
+            editProduct,
+            fetchSingleProduct
         }
 
     } else {

@@ -1,27 +1,56 @@
 import style from './ProductsDisplayer.module.css';
-import { Product } from "@/components/global/Product/Product";
 import { useEffect, useState } from "react";
+import { Product } from "@/components/global/Product/Product";
+import { SearchBar } from '@/components/PageProducts/SearchBar/SearchBar';
 
 const ProductsDisplayer = ({ products, editProduct }) => {
     const [productsToDisplay, setProductsToDisplay] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [on, setOn] = useState(true);
+
+    const handleSearch = (searchTerm) => {
+        console.log(searchTerm);
+    }
+
+
+    console.log(
+        productsToDisplay?.filter(
+            (product) => product.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+    )
+
+    let show = productsToDisplay?.filter(
+        (product) => product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    console.log("show", show)
 
     useEffect(() => {
-        products.map((product) => {
+        if (on && products?.length > 0) {
+            const newProductsToDisplay = [];
+        
+            products.forEach((product) => {
             if (product?.variations?.length > 0) {
-                product.variations.map((variation) => {
-                    setProductsToDisplay((prevState) => [
-                        ...prevState,
-                        { ...product, variation },
-                    ]);
+                product.variations.forEach((variation) => {
+                newProductsToDisplay.push({ ...product, variation });
                 });
             } else {
-                setProductsToDisplay((prevState) => [...prevState, product]);
+                newProductsToDisplay.push(product);
             }
-        });
-    }, [products]);
+            });
+        
+            setProductsToDisplay(newProductsToDisplay);
+            setOn(false);
+        }
+      }, [products]);
 
     return (
             <div className={style.header}>
+                <div className={style.header__searchBar}>
+                    <SearchBar onSearch={handleSearch} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+                    <a href="products/create-product">
+                        <button>Crear producto</button>
+                    </a>
+                </div>
                 <div className={style.product}>
                     <div className={style.product__image}></div>
                     <div className={style.product__name}>
@@ -37,9 +66,17 @@ const ProductsDisplayer = ({ products, editProduct }) => {
                         <p>Stock</p>
                     </div>
                 </div>
-            {productsToDisplay?.map((product) => (
-                <Product key={product.id} product={product} editProduct={editProduct} />
-            ))}
+                {show.map((product, i) => (
+                    <>
+                        <Product 
+                            productPrice={product?.variation ? product?.variation.price : product?.price}
+                            productStock={product?.variation ? product?.variation.stock : product?.stock}
+                            key={i}
+                            product={product}
+                            editProduct={editProduct}
+                        />
+                    </>
+                ))}
         </div>
     );
 }

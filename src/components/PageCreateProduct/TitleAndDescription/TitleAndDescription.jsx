@@ -1,6 +1,6 @@
 import { BoxLayout } from "../BoxLayout/BoxLayout";
 
-const TitleAndDescription = ({ onChange }) => {
+const TitleAndDescription = ({ onChange, name, description }) => {
     return (
         <BoxLayout>
             <div>
@@ -9,6 +9,7 @@ const TitleAndDescription = ({ onChange }) => {
                     type="text"
                     onChange={onChange}
                     name="name"
+                    value={name}
                 />
             </div>
             <div>
@@ -16,6 +17,7 @@ const TitleAndDescription = ({ onChange }) => {
                 <textarea
                     onChange={onChange}
                     name="description"
+                    value={description}
                 />
             </div>
         </BoxLayout>
