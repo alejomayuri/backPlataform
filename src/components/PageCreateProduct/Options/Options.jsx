@@ -3,22 +3,53 @@ import { BoxLayout } from "../BoxLayout/BoxLayout";
 import { useState, useCallback, useEffect } from 'react'
 import { Option } from './Option/Option'
 
-const Options = ({ onChange }) => {
+const Options = ({ onChange, productOptions }) => {
     const [theseProductsHaveOptions, setTheseProductsHaveOptions] = useState(false)
     const [optionId, setOptionId] = useState([{ id: 1}])
-
+    const [initialOptions, setInitialOptions] = useState([])
     const [options, setOptions] = useState([])
+
+    useEffect(() => {
+        setInitialOptions(productOptions)
+    }, [productOptions])
+    console.log(options)
+    useEffect(() => {
+        if (initialOptions) {
+            const newOptionId = initialOptions.map((option, index) => {
+                return { id: index + 1 }
+            })
+            setOptionId(newOptionId)
+            setOptions(initialOptions)
+            if (initialOptions.length > 0) {
+                setTheseProductsHaveOptions(true)
+            }
+        } else {
+            setOptionId([{ id: 1, value: "" }])
+            setOptions([{ id: 1, name: "", values: [""]}])
+        }
+    }, [initialOptions])
 
     const handleHaveOptions = () => {
         setTheseProductsHaveOptions(!theseProductsHaveOptions)
-        setOptionId([{ id: 1}])
+
+        if (productOptions && productOptions.length > 0) {
+            const newOptionId = initialOptions.map((option, index) => {
+                return { id: index + 1 }
+            })
+            setOptionId(newOptionId)
+        } else {
+            setOptionId([{ id: 1}])
+        }
 
         if (!theseProductsHaveOptions) {
-            setOptions([{ id: 1, name: "", values: [""]}])
+            if (productOptions) {
+                setOptions(initialOptions)
+            } else {
+                setOptions([{ id: 1, name: "hola", values: [""]}])
+            }
         } else {
             setOptions([])
         }
-        // setOptions([{ id: 1, name: "", values: [""]}])
     }
 
     const handleChangeOptions = useCallback((id, name, values) => {
@@ -33,7 +64,6 @@ const Options = ({ onChange }) => {
             return option;
         });
         setOptions(newOptions);
-
     }, [options])
 
     const handleDeleteOptions = useCallback((id) => {
@@ -41,22 +71,19 @@ const Options = ({ onChange }) => {
         setOptions(newOptions)
     }, [options])
 
-    // console.log("options", options)
     useEffect(() => {
         onChange(options)
     }, [options])
 
     const handleNewOption = () => {
-        // setOptions([...options, { id: options.length + 1, name: "", values: [""]}])
         setOptionId([...optionId, { id: optionId.length + 1}])
     }
 
     return (
         <BoxLayout title="Opciones">
-            {/* <h3 className={style.title}>Opciones</h3> */}
             <div className={style.theseProductsHaveOptions}>
                 <div>
-                    <input type="checkbox" name="theseProductsHaveOptions" onChange={handleHaveOptions} />
+                    <input checked={theseProductsHaveOptions} type="checkbox" name="theseProductsHaveOptions" onChange={handleHaveOptions} />
                     <label htmlFor="saleWithoutStock">Este producto tiene opciones, como talla y color</label>
                 </div>
             </div>
@@ -69,6 +96,7 @@ const Options = ({ onChange }) => {
                                 optionId={option.id}
                                 onChange={handleChangeOptions}
                                 handleDeleteOptions={handleDeleteOptions}
+                                initialOptionValues={initialOptions && initialOptions.find(initialOption => initialOption.id === option.id)}
                             />
                         ))}
                     </div>

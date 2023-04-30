@@ -1,8 +1,8 @@
 import style from './State.module.css'
 import { BoxLayout } from "../BoxLayout/BoxLayout";
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-const State = ({ onChange }) => {
+const State = ({ onChange, productState }) => {
     const [state, setState] = useState("inactive")
 
     const handleChange = (e) => {
@@ -15,13 +15,27 @@ const State = ({ onChange }) => {
         }
     }
 
+    useEffect(() => {
+        if (productState) {
+            setState("active")
+        } else {
+            setState("inactive")
+        }
+    }, [productState])
+
     return (
         <BoxLayout small title="Estado del producto">
             <div className={style.state}>
                 <div className={style.stateWrapper}>
                     <select name="state" id="state" onChange={handleChange}>
-                        <option value="inactive">Inactivo</option>
-                        <option value="active">Activo</option>
+                        <option
+                            value="inactive"
+                            selected={state === "inactive" ? true : false}
+                        >Inactivo</option>
+                        <option
+                            value="active"
+                            selected={state === "active" ? true : false}
+                        >Activo</option>
                     </select>
                 </div>
                 <p className="info">

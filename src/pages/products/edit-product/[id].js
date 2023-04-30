@@ -1,11 +1,15 @@
 import { Layout } from "@/layouts/Layout";
-import useFormProduct from "@/hooks/useFormProduct";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/router'
 import { useFunctions } from "@/hooks/useFunctions";
 import { TitleAndDescription } from "@/components/PageCreateProduct/TitleAndDescription/TitleAndDescription";
 import { Multimedia } from "@/components/PageCreateProduct/Multimedia/Multimedia";
 import { CreateButton } from "@/components/PageCreateProduct/CreateButton/CreateButton";
+import { Price } from "@/components/PageCreateProduct/Price/Price";
+import { Stock } from "@/components/PageCreateProduct/Stock/Stock";
+import { State } from "@/components/PageCreateProduct/State/State";
+import { Organization } from "@/components/PageCreateProduct/Organization/Organization";
+import { Options } from "@/components/PageCreateProduct/Options/Options";
 
 export default function EditProduct(props) {
     const { data } = props
@@ -15,66 +19,114 @@ export default function EditProduct(props) {
     const fetchSingleProduct = functions?.fetchSingleProduct
 
     const [product, setProduct] = useState({})
+    const [editFormProduct, setEditFormProduct] = useState({})
+    const [showProgress, setShowProgress] = useState(false)
+    const [prevImage, setPrevImage] = useState('')
+    const [uploatValue, setUploadValue] = useState(0)
+    const [file, setFile] = useState('')
+
+    if (product && product.image && prevImage === '') {
+        setPrevImage(product.image)
+    }
 
     const router = useRouter()
     const { id } = router.query
-    console.log(id)
+
     useEffect(() => {
         if (fetchSingleProduct) {
             fetchSingleProduct(id).then((data) => {
                 setProduct(data)
         }
     )}}, [functions?.loaded])
+        console.log("editFormProduct", editFormProduct)
+    useEffect(() => {
+        if (product) {
+            setEditFormProduct(product)
+        }
+    }, [product])
 
-    console.log("product", product)
+    const handleDeleteImg = () => {
+        setPrevImage('')
+        setProduct({
+            ...product,
+            image: ''
+        })
 
-    // const {
-    //     formProduct,
-    //     handleOnChange,
-    // } = useFormProduct({getStorage: getStorage})
+        if (file) {
+        const storageRef = getStorage().ref(`products/${file.name}`)
+        storageRef.delete()
+        }
+        setShowProgress(false)
+        setUploadValue(0)
+    }
 
     const handleOnChange = (e) => {
         const { name, value } = e.target
-        setProduct({
-            ...product,
+        setEditFormProduct({
+            ...editFormProduct,
             [name]: value
         })
     }
 
-    // const handleOnChangeImg = (e) => {
-    //     const file = e.target.files[0]
-    //     setFile(file)
-    //     setShowProgress(true)
-    //     setPrevImage('')
-    //     const storageRef = getStorage().ref(`products/${file?.name}`)
-    //     const task = storageRef.put(file)
+    const handleOnChangeImg = (e) => {
+        const file = e.target.files[0]
+        setFile(file)
+        setShowProgress(true)
+        setPrevImage('')
+        const storageRef = getStorage().ref(`products/${file?.name}`)
+        const task = storageRef.put(file)
 
-    //     task.then(res => {
-    //         console.log(res)
-    //         const imgUrl = res.ref.getDownloadURL()
-    //         imgUrl.then(url => {
-    //             setFormProduct((prevState) => ({
-    //                 ...prevState,
-    //                 image: url
-    //             }))
-    //             setPrevImage(url)
-    //             setUploadValue(100)
-    //             setDisabledButton(false)
-    //         })
-    //     }).catch(err => console.log(err))
+        task.then(res => {
+            const imgUrl = res.ref.getDownloadURL()
+            imgUrl.then(url => {
+                setEditFormProduct((prevState) => ({
+                    ...prevState,
+                    image: url
+                }))
+                setPrevImage(url)
+                setUploadValue(100)
+                // setDisabledButton(false)
+            })
+        }).catch(err => console.log(err))
 
-    //     task.on('state_changed', snapshot => {
-    //         const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100) - 10
-    //         setUploadValue(progress)
-    //     })
-    // }
+        task.on('state_changed', snapshot => {
+            const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100) - 10
+            setUploadValue(progress)
+        })
+    }
+
+    const handleSaleWithoutStock = (e) => {
+        setEditFormProduct({
+            ...editFormProduct,
+            saleWithoutStock: e.target.checked
+        })
+    }
+
+    const handleOnChangeState = (boolean) => {
+        setEditFormProduct({
+            ...editFormProduct,
+            active: boolean
+        })
+    }
+
+    const handleCategories = (cat) => {
+        setEditFormProduct({
+            ...editFormProduct,
+            categories: cat
+        })
+    }
+
+    const handleOptions = (options) => {
+        setEditFormProduct({
+            ...editFormProduct,
+            options: options
+        })
+    }
 
     const handleEdit = () => {
-        editProduct(id, product)
+        editProduct(id, editFormProduct)
         router.push('/products')
     }
-    
-    // console.log("formProduct", formProduct)
 
     return (
         <Layout>
@@ -87,15 +139,41 @@ export default function EditProduct(props) {
                             name={product.name}
                             description={product.description}
                         />
-                        {/* <Multimedia
+                        <Multimedia
                             onChange={handleOnChangeImg}
                             prevImage={prevImage}
                             showProgress={showProgress}
                             uploatValue={uploatValue}
                             handleDeleteImg={handleDeleteImg}
-                        /> */}
+                        />
+                        <Price
+                            onChange={handleOnChange}
+                            price={product.price}
+                            comparisonPrice={product.comparisonPrice}
+                        />
+                        <Stock
+                            onChange={handleOnChange}
+                            handleSaleWithoutStock={handleSaleWithoutStock}
+                            stock={product.stock}
+                            saleWithoutStock={product.saleWithoutStock}
+                        />
+                        <Options
+                            onChange={handleOptions}
+                            productOptions={product.options}
+                        />
                     </div>
                     <div>
+                        <State
+                            onChange={handleOnChangeState}
+                            productState={product.active}
+                        />
+                        <Organization
+                            onChangeCats={handleCategories}
+                            onChange={handleOnChange}
+                            categories={product.categories}
+                            subcat={product.subcategory}
+                            keywords={product.keywords}
+                        />
                         <button
                             onClick={handleEdit}
                         >editar</button>

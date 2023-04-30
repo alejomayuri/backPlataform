@@ -3,9 +3,42 @@ import { useEffect, useState } from 'react'
 import DeleteIcon from '@/components/global/icons/DeleteIcon';
 import { BoxLayout } from "../BoxLayout/BoxLayout";
 
-const Organization = ({ onChangeCats, onChange }) => {
-    const [inputs, setInputs] = useState([{ id: 1, value: "" }]);
+const Organization = ({ onChangeCats, onChange, categories, subcat, keywords }) => {
+    const [inputs, setInputs] = useState([])
+    const [initialCategories, setInitialCategories] = useState([])
+    const [subcatState, setSubcatState] = useState(null)
+    const [keywordsState, setKeywordsState] = useState(null)
     const OPTIONS = ["Ropa", "Accesorios", "Calzado", "Juguetes", "Mascotas", "Colección de Verano"]
+
+    const handleSubcatChange = (e) => {
+        setSubcatState(e.target.value)
+        onChange(e)
+    }
+
+    const handleKeywordsChange = (e) => {
+        setKeywordsState(e.target.value)
+        onChange(e)
+    }
+    
+    useEffect(() => {
+            setInitialCategories(categories)
+    }, [categories])
+
+    useEffect(() => {
+        setSubcatState(subcat)
+        setKeywordsState(keywords)
+    }, [subcat, keywords])
+
+    useEffect(() => {
+        if (initialCategories) {
+            const newInputs = initialCategories.map((category, index) => {
+                return { id: index + 1, value: category }
+            })
+            setInputs(newInputs)
+        } else {
+            setInputs([{ id: 1, value: "" }])
+        }
+    }, [initialCategories])
 
     const values = inputs.map(input => input.value);
 
@@ -44,7 +77,9 @@ const Organization = ({ onChangeCats, onChange }) => {
                         >
                             <option value="">Seleccionar</option>
                             {OPTIONS.map(option => (
-                                <option key={option} value={option}>{option}</option>
+                                <option selected={
+                                    input.value === option ? true : false
+                                } key={option} value={option}>{option}</option>
                             ))}
                         </select>
                         {
@@ -63,14 +98,14 @@ const Organization = ({ onChangeCats, onChange }) => {
             </div>
             <div>
                 <h3>Subcategoria</h3>
-                <input type="text" name="subcategory" onChange={onChange} />
+                <input value={subcatState} type="text" name="subcategory" onChange={handleSubcatChange} />
                 <p>
                     La <b>subcategoría</b> es una forma de organizar los productos de tu tienda.
                 </p>
             </div>
             <div>
                 <h3>Palabras Clave</h3>
-                <textarea type="text" name="keywords" onChange={onChange} />
+                <textarea value={keywordsState} type="text" name="keywords" onChange={handleKeywordsChange} />
                 <p>
                     Las palabras clave sirven para que los clientes encuentren tu producto
                     usando el <b>buscador de la tienda</b>.

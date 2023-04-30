@@ -2,10 +2,34 @@ import style from './Option.module.css'
 import { useState, useEffect } from 'react'
 import DeleteIcon from '@/components/global/icons/DeleteIcon';
 
-const Option = ({ optionId, optionName, onChange, handleDeleteOptions, optionValues }) => {
-    const [inputs, setInputs] = useState([{ id: 1, value: "" }]);
-    const values = inputs.map(input => input.value);
+const Option = ({ initialOptionValues, optionId, optionName, onChange, handleDeleteOptions, optionValues }) => {
+    // const [inputs, setInputs] = useState([{ id: 1, value: "" }]);
+    const [inputs, setInputs] = useState([])
+    const [initialOptions, setInitialOptions] = useState(null)
     const [name, setName] = useState("");
+
+    useEffect(() => {
+        setInitialOptions(initialOptionValues)
+    }, [initialOptionValues])
+
+    // console.log(initialOptions)
+    console.log("inputs", inputs)
+
+    useEffect(() => {
+        if (initialOptions) {
+            const { values } = initialOptions
+            const newInputs = values.map((value, index) => {
+                return { id: index + 1, value }
+            })
+            setInputs(newInputs)
+            setName(initialOptions.name)
+        } else {
+            setInputs([{ id: 1, value: "" }])
+        }
+    }, [initialOptions])
+
+    const values = inputs.map(input => input.value);
+    
     const [hideThisOption, setHideThisOption] = useState(false);
 
     const handleName = (e) => {
@@ -33,7 +57,7 @@ const Option = ({ optionId, optionName, onChange, handleDeleteOptions, optionVal
 
     useEffect(() => {
         onChange(optionId, name, values)
-    }, [name,  optionId, inputs])
+    }, [name, optionId, inputs, initialOptions])
 
     const handleDelete = () => {
         handleDeleteOptions(optionId)
@@ -49,7 +73,7 @@ const Option = ({ optionId, optionName, onChange, handleDeleteOptions, optionVal
             <div className={style.optionName}>
                 <label htmlFor="options">Nombre de la opción</label>
                 <div className={style.valueWrapper}>
-                    <input type="text" name="name_option" placeholder="Color" onChange={handleName} />
+                    <input value={name} type="text" name="name_option" placeholder="Color" onChange={handleName} />
                     <button onClick={handleDelete} className={style.deleteValue}>
                         <DeleteIcon stroke={"#c1c1c1"} width="23px" height="22px" />
                     </button>
@@ -66,6 +90,7 @@ const Option = ({ optionId, optionName, onChange, handleDeleteOptions, optionVal
                             name="values_option"
                             className={style.value}
                             placeholder={input.id === 1 ? "Rojo" : "Agregar otro valor"}
+                            value={input.value}
                         />
                         {
                             input.value !== "" && (

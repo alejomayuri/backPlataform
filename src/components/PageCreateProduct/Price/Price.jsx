@@ -1,11 +1,28 @@
 import style from "./Price.module.css";
+import { useState, useEffect } from "react";
 import { BoxLayout } from "../BoxLayout/BoxLayout";
 
-const Price = ({ onChange }) => {
+const Price = ({ onChange, price, comparisonPrice }) => {
+    const [priceState, setPriceState] = useState(null)
+    const [comparisonPriceState, setComparisonPriceState] = useState(null)
+
+    const handlePriceChange = (e) => {
+        setPriceState(e.target.value)
+        onChange(e)
+    }
+
+    const handleComparisonPriceChange = (e) => {
+        setComparisonPriceState(e.target.value)
+        onChange(e)
+    }
+
+    useEffect(() => {
+        setPriceState(price)
+        setComparisonPriceState(comparisonPrice)
+    }, [price, comparisonPrice])
+
     return (
-        // <div className={style.container}>
         <BoxLayout title="Precio">
-            {/* <h3>Precio</h3> */}
             <div className={style.priceWrapper}>
                 <div>
                     <h3>Precio</h3>
@@ -21,9 +38,10 @@ const Price = ({ onChange }) => {
                         </select>
                         <input
                             type="text"
-                            onChange={onChange}
+                            onChange={handlePriceChange}
                             name="price"   
                             className={style.price} 
+                            value={priceState}
                         />
                     </div>
                 </div>
@@ -31,9 +49,10 @@ const Price = ({ onChange }) => {
                     <h3 className={style.comparisonPriceTitle} >Precio de comparación</h3>
                     <input
                         type="text"
-                        onChange={onChange}
+                        onChange={handleComparisonPriceChange}
                         name="comparisonPrice"
-                        className={style.comparisonPrice} 
+                        className={style.comparisonPrice}
+                        value={comparisonPriceState}
                     />
                 </div>
             </div>
