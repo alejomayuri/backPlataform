@@ -105,6 +105,7 @@ export default function CreateProduct(props) {
                         />
                         <Options
                             onChange={handleOptions}
+                            create={true}
                         />
                         {
                             formProduct?.options?.length > 0 && (

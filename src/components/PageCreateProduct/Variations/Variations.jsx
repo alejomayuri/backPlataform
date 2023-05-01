@@ -2,7 +2,14 @@ import style from "./Variations.module.css"
 import { BoxLayout } from "../BoxLayout/BoxLayout";
 import { useEffect, useState } from "react"
 
-const Variations = ({ options, onChange }) => {
+const Variations = ({ options, onChange, productVariations }) => {
+
+    const [initialVariations, setInitialVariations] = useState(null)
+
+    useEffect(() => {
+        setInitialVariations(productVariations)
+    }, [productVariations])
+
     function generateCombinations(arrays) {
         if (arrays.length === 1) {
             return arrays[0].map(el => [el])
@@ -19,14 +26,31 @@ const Variations = ({ options, onChange }) => {
         return combinations;
     }
 
-    const arrays = options.map(option => option.values)
+    // console.log("options", options)
+
+    const arrays = options?.map(option => option.values)
     const parseArrays = arrays.map(array => array.filter(el => el !== ""))
     const combinations = generateCombinations(parseArrays);
-    const variations = combinations.map(combination => {    
+    
+    const variations = combinations.map(combination => {
+        const ip = initialVariations ? initialVariations.find(variation => {
+            const variationName = variation.name.split(" / ")
+            return variationName.every((value, index) => {
+                return value === combination[index]
+            })
+        }) : null
+
+        const is = initialVariations ? initialVariations.find(variation => {
+            const variationName = variation.name.split(" / ")
+            return variationName.every((value, index) => {
+                return value === combination[index]
+            })
+        }) : null
+
         const variation = {
             name: combination.join(" / "),
-            price: '0',
-            stock: '0',
+            price: ip ? ip.price : '0',
+            stock: is ? is.stock : '0',
             options: combination.map((value, index) => {
                 return {
                     name: options[index].name,
@@ -37,12 +61,20 @@ const Variations = ({ options, onChange }) => {
         return variation
     })
 
-    const [variationsState, setVariationsState] = useState(variations)
+    const [variationsState, setVariationsState] = useState(productVariations)
 
     useEffect(() => {
-         setVariationsState(variations)
-    }, [options])
+        setVariationsState(variations)
+    }, [options,])
 
+    // useEffect(() => {
+    //     if (initialVariations) {
+    //         setVariationsState(initialVariations)
+    //     }
+    // }, [initialVariations])
+
+    console.log("variationsState", variationsState)
+    console.log("initialVariations", initialVariations)
     const handleChange = (e, index) => {
         const { name, value } = e.target;
         setVariationsState(

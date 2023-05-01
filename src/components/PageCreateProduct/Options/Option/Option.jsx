@@ -2,7 +2,7 @@ import style from './Option.module.css'
 import { useState, useEffect } from 'react'
 import DeleteIcon from '@/components/global/icons/DeleteIcon';
 
-const Option = ({ initialOptionValues, optionId, optionName, onChange, handleDeleteOptions, optionValues }) => {
+const Option = ({ initialOptionValues, optionId, optionName, onChange, handleDeleteOptions, optionValues, create }) => {
     // const [inputs, setInputs] = useState([{ id: 1, value: "" }]);
     const [inputs, setInputs] = useState([])
     const [initialOptions, setInitialOptions] = useState(null)
@@ -11,9 +11,6 @@ const Option = ({ initialOptionValues, optionId, optionName, onChange, handleDel
     useEffect(() => {
         setInitialOptions(initialOptionValues)
     }, [initialOptionValues])
-
-    // console.log(initialOptions)
-    console.log("inputs", inputs)
 
     useEffect(() => {
         if (initialOptions) {
@@ -56,9 +53,11 @@ const Option = ({ initialOptionValues, optionId, optionName, onChange, handleDel
     };
 
     useEffect(() => {
-        onChange(optionId, name, values)
+        if (initialOptions || create) {
+            onChange(optionId, name, values)
+        }
     }, [name, optionId, inputs, initialOptions])
-
+    
     const handleDelete = () => {
         handleDeleteOptions(optionId)
         setHideThisOption(true)

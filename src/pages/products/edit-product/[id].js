@@ -10,6 +10,7 @@ import { Stock } from "@/components/PageCreateProduct/Stock/Stock";
 import { State } from "@/components/PageCreateProduct/State/State";
 import { Organization } from "@/components/PageCreateProduct/Organization/Organization";
 import { Options } from "@/components/PageCreateProduct/Options/Options";
+import { Variations } from "@/components/PageCreateProduct/Variations/Variations";
 
 export default function EditProduct(props) {
     const { data } = props
@@ -39,6 +40,7 @@ export default function EditProduct(props) {
         }
     )}}, [functions?.loaded])
         console.log("editFormProduct", editFormProduct)
+        console.log("product", product)
     useEffect(() => {
         if (product) {
             setEditFormProduct(product)
@@ -123,6 +125,13 @@ export default function EditProduct(props) {
         })
     }
 
+    const handleVariations = (variations) => {
+        setEditFormProduct({
+            ...editFormProduct,
+            variations: variations
+        })
+    }
+
     const handleEdit = () => {
         editProduct(id, editFormProduct)
         router.push('/products')
@@ -161,6 +170,15 @@ export default function EditProduct(props) {
                             onChange={handleOptions}
                             productOptions={product.options}
                         />
+                        {
+                            editFormProduct?.options?.length > 0 && (
+                                <Variations
+                                    options={editFormProduct?.options || []}
+                                    onChange={handleVariations}
+                                    productVariations={product.variations}
+                                />  
+                            )
+                        }
                     </div>
                     <div>
                         <State

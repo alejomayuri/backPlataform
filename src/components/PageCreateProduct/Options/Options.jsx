@@ -3,7 +3,7 @@ import { BoxLayout } from "../BoxLayout/BoxLayout";
 import { useState, useCallback, useEffect } from 'react'
 import { Option } from './Option/Option'
 
-const Options = ({ onChange, productOptions }) => {
+const Options = ({ onChange, productOptions, create }) => {
     const [theseProductsHaveOptions, setTheseProductsHaveOptions] = useState(false)
     const [optionId, setOptionId] = useState([{ id: 1}])
     const [initialOptions, setInitialOptions] = useState([])
@@ -12,7 +12,7 @@ const Options = ({ onChange, productOptions }) => {
     useEffect(() => {
         setInitialOptions(productOptions)
     }, [productOptions])
-    console.log(options)
+    
     useEffect(() => {
         if (initialOptions) {
             const newOptionId = initialOptions.map((option, index) => {
@@ -45,7 +45,7 @@ const Options = ({ onChange, productOptions }) => {
             if (productOptions) {
                 setOptions(initialOptions)
             } else {
-                setOptions([{ id: 1, name: "hola", values: [""]}])
+                setOptions([{ id: 1, name: "", values: [""]}])
             }
         } else {
             setOptions([])
@@ -97,6 +97,7 @@ const Options = ({ onChange, productOptions }) => {
                                 onChange={handleChangeOptions}
                                 handleDeleteOptions={handleDeleteOptions}
                                 initialOptionValues={initialOptions && initialOptions.find(initialOption => initialOption.id === option.id)}
+                                create={create}
                             />
                         ))}
                     </div>
