@@ -1,6 +1,7 @@
 import style from './Product.module.css';
 import { useEffect, useState, useRef } from 'react';
 import EditIcon from '../icons/Edit';
+import Link from 'next/link';
 
 const Product = ({ product, editProduct, productPrice, productStock }) => {
     const [price, setPrice] = useState(productPrice);
@@ -35,8 +36,6 @@ const Product = ({ product, editProduct, productPrice, productStock }) => {
     const [productToUpdate, setProductToUpdate] = useState(
         productWithouVariation(product)
     );
-
-    console.log("productToUpdate", productToUpdate)
 
     useEffect(() => {
         setProductToUpdate(productWithouVariation(productToUpdate))
@@ -122,7 +121,9 @@ const Product = ({ product, editProduct, productPrice, productStock }) => {
                     <img src={product?.image} alt={product?.name} />
                 </div>
                 <div className={style.product__name}>
-                    <h3>{product?.name}</h3>
+                    <Link href={`/products/edit-product/${product?.id}`}>
+                        <h3>{product?.name}</h3>
+                    </Link>
                     {
                         product?.variation && (
                             <p>{product?.variation.name}</p>

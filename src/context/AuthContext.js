@@ -28,12 +28,16 @@ export const AuthProvider = ({ children }) => {
         return auth.signInWithEmailAndPassword(email, password)
     }
 
+    const register = (email, password) => {
+        return auth.createUserWithEmailAndPassword(email, password)
+    }
+
     const logout = () => {
         return auth.signOut()
     }
     
     return (
-        <AuthContext.Provider value={{ singup, loginWithGoogle, login, logout, currentUser, loading }}>
+        <AuthContext.Provider value={{ singup, loginWithGoogle, login, logout, register, currentUser, loading }}>
             {children}
         </AuthContext.Provider>
     );

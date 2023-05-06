@@ -12,13 +12,6 @@ const ProductsDisplayer = ({ products, editProduct }) => {
         console.log(searchTerm);
     }
 
-
-    console.log(
-        productsToDisplay?.filter(
-            (product) => product.name.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-    )
-
     let show = productsToDisplay?.filter(
         (product) => product.name.toLowerCase().includes(searchTerm.toLowerCase())
     )

@@ -11,12 +11,22 @@ import { Variations } from "@/components/PageCreateProduct/Variations/Variations
 import { State } from "@/components/PageCreateProduct/State/State";
 import { Organization } from "@/components/PageCreateProduct/Organization/Organization";
 import { CreateButton } from "@/components/PageCreateProduct/CreateButton/CreateButton";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from 'next/router'
 
 export default function CreateProduct(props) {
     const { data } = props
     const functions = useFunctions({data})
     const getStorage = functions?.getStorage
     const handleRegisterProduct = functions?.handleRegisterProduct
+
+    const { currentUser, loading } = useAuth()
+    const router = useRouter()
+    useEffect(() => {
+        if (!currentUser && !loading) {
+            router.push("/")
+        }
+    }, [currentUser, loading, router])
     
     const {
         formProduct,

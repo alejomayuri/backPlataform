@@ -11,8 +11,17 @@ import { State } from "@/components/PageCreateProduct/State/State";
 import { Organization } from "@/components/PageCreateProduct/Organization/Organization";
 import { Options } from "@/components/PageCreateProduct/Options/Options";
 import { Variations } from "@/components/PageCreateProduct/Variations/Variations";
+import { useAuth } from "@/context/AuthContext";
 
 export default function EditProduct(props) {
+    const { currentUser, loading } = useAuth()
+    const router = useRouter()
+    useEffect(() => {
+        if (!currentUser && !loading) {
+            router.push("/")
+        }
+    }, [currentUser, loading, router])
+
     const { data } = props
     const functions = useFunctions({data})
     const getStorage = functions?.getStorage
@@ -30,7 +39,6 @@ export default function EditProduct(props) {
         setPrevImage(product.image)
     }
 
-    const router = useRouter()
     const { id } = router.query
 
     useEffect(() => {
@@ -39,8 +47,7 @@ export default function EditProduct(props) {
                 setProduct(data)
         }
     )}}, [functions?.loaded])
-        console.log("editFormProduct", editFormProduct)
-        console.log("product", product)
+    
     useEffect(() => {
         if (product) {
             setEditFormProduct(product)
@@ -87,7 +94,6 @@ export default function EditProduct(props) {
                 }))
                 setPrevImage(url)
                 setUploadValue(100)
-                // setDisabledButton(false)
             })
         }).catch(err => console.log(err))
 

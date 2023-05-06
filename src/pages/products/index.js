@@ -2,8 +2,18 @@ import { useEffect, useState } from 'react'
 import { useFunctions } from "@/hooks/useFunctions";
 import { Layout } from "@/layouts/Layout";
 import { ProductsDisplayer } from "@/components/PageProducts/ProductsDisplayer/ProductsDisplayer"
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/router";
 
 export default function Products(props) {
+    const { currentUser, loading } = useAuth()
+    const router = useRouter()
+    useEffect(() => {
+        if (!currentUser && !loading) {
+            router.push("/")
+        }
+    }, [currentUser, loading, router])
+
     const { data } = props
     const [products, setProducts] = useState([])
     const functions = useFunctions({data})
