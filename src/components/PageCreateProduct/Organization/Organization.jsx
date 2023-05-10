@@ -9,6 +9,38 @@ const Organization = ({ onChangeCats, onChange, categories, subcat, keywords }) 
     const [subcatState, setSubcatState] = useState(null)
     const [keywordsState, setKeywordsState] = useState(null)
     const OPTIONS = ["Ropa", "Accesorios", "Calzado", "Juguetes", "Mascotas", "Colección de Verano"]
+    const TRUE_OPTIONS = [
+        {
+            id: 1,
+            value: "ropa",
+            name: "Ropa"
+        },
+        {
+            id: 2,
+            value: "accesorios",
+            name: "Accesorios"
+        },
+        {
+            id: 3,
+            value: "calzado",
+            name: "Calzado"
+        },
+        {
+            id: 4,
+            value: "juguetes",
+            name: "Juguetes"
+        },
+        {
+            id: 5,
+            value: "mascotas",
+            name: "Mascotas"
+        },
+        {
+            id: 6,
+            value: "coleccion-de-verano",
+            name: "Colección de Verano"
+        }
+    ]
 
     const handleSubcatChange = (e) => {
         setSubcatState(e.target.value)
@@ -76,10 +108,10 @@ const Organization = ({ onChangeCats, onChange, categories, subcat, keywords }) 
                             onChange={e => handleInputChange(input.id, e.target.value)}
                         >
                             <option value="">Seleccionar</option>
-                            {OPTIONS.map(option => (
+                            {TRUE_OPTIONS.map(option => (
                                 <option selected={
-                                    input.value === option ? true : false
-                                } key={option} value={option}>{option}</option>
+                                    input.value === option.value ? true : false
+                                } key={option.id} value={option.value}>{option.name}</option>
                             ))}
                         </select>
                         {
