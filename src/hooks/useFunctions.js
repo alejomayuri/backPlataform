@@ -56,6 +56,22 @@ export const useFunctions = ({data} = {data: null}) => {
             })
         }
 
+        const fetchSingleOrder = (id) => {
+            return db
+            .collection("pedidos")
+            .doc(id)
+            .get()
+            .then((doc) => {
+                const data = doc.data()
+                const id = doc.id
+
+                return {
+                    ...data,
+                    id
+                }
+            })
+        }
+
         const redirect = (url) => {
             router.push(url)
         }
@@ -63,7 +79,7 @@ export const useFunctions = ({data} = {data: null}) => {
         const handleRegisterProduct = (form, url) => {
             db.collection('prueba').add(form)
                 .then((res) => {
-                    console.log(res)
+                    // console.log(res)
                     redirect(url)
                 })
                 .catch(err => console.log(err))
@@ -99,7 +115,8 @@ export const useFunctions = ({data} = {data: null}) => {
             handleRegisterProduct,
             getStorage,
             editProduct,
-            fetchSingleProduct
+            fetchSingleProduct,
+            fetchSingleOrder
         }
 
     } else {

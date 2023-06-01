@@ -26,8 +26,6 @@ export default function Orders(props) {
         }
     )}}, [functions?.loaded])
 
-    console.log(orders)
-
     return (
         <Layout>
             <div className="content__wrapper_big">

@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 
 const CreateButton = ({ handleRegisterProduct, formProduct,disabled }) => {
     const handleCreate = useCallback(() => {
-        console.log('Creando producto...');
+        // console.log('Creando producto...');
         handleRegisterProduct(formProduct, '/products')
     }, [handleRegisterProduct, formProduct]);
     

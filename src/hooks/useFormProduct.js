@@ -50,7 +50,7 @@ export default function useFormProduct({
         const task = storageRef.put(file)
 
         task.then(res => {
-            console.log(res)
+            // console.log(res)
             const imgUrl = res.ref.getDownloadURL()
             imgUrl.then(url => {
                 setFormProduct((prevState) => ({

@@ -67,14 +67,6 @@ const Variations = ({ options, onChange, productVariations }) => {
         setVariationsState(variations)
     }, [options,])
 
-    // useEffect(() => {
-    //     if (initialVariations) {
-    //         setVariationsState(initialVariations)
-    //     }
-    // }, [initialVariations])
-
-    console.log("variationsState", variationsState)
-    console.log("initialVariations", initialVariations)
     const handleChange = (e, index) => {
         const { name, value } = e.target;
         setVariationsState(

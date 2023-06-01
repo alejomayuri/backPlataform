@@ -9,7 +9,7 @@ const ProductsDisplayer = ({ products, editProduct }) => {
     const [on, setOn] = useState(true);
 
     const handleSearch = (searchTerm) => {
-        console.log(searchTerm);
+        // console.log(searchTerm);
     }
 
     let show = productsToDisplay?.filter(
