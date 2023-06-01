@@ -15,7 +15,6 @@ const ProductsDisplayer = ({ products, editProduct }) => {
     let show = productsToDisplay?.filter(
         (product) => product.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
-    console.log("show", show)
 
     useEffect(() => {
         if (on && products?.length > 0) {

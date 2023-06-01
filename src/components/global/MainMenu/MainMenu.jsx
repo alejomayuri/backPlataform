@@ -18,10 +18,20 @@ const MainMenu = () => {
                     </Link>
                 </li>
                 <li className={style.menu__item}>
-                    <a href="#" className={style.menu__link}>
+                    <Link href="/" className={style.menu__link}>
+                        <span>Todos los productos</span>
+                    </Link>
+                </li>
+                <li className={style.menu__item}>
+                    <Link href="/" className={style.menu__link}>
+                        <span>Colecciones</span>
+                    </Link>
+                </li>
+                <li className={style.menu__item}>
+                    <Link href="/orders" className={style.menu__link}>
                         <span>📦</span>
                         <span>Pedidos</span>
-                    </a>
+                    </Link>
                 </li>
             </ul>
         </div>

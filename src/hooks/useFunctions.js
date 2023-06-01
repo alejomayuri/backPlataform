@@ -73,15 +73,29 @@ export const useFunctions = ({data} = {data: null}) => {
 
         const editProduct = (id, form) => {
             return db.collection('prueba').doc(id).update(form)
-        //         .then((res) => {
-        //             console.log(res)
-        //         })
-        //         .catch(err => console.log(err))
         }
+
+        const fetchOrders = () => {
+            return db
+            .collection("pedidos")
+            .orderBy("date", "desc")
+            .get()
+            .then(({ docs }) => {
+                return docs.map((doc) => {
+                    const data = doc.data()
+                    const id = doc.id
+            
+                    return {
+                        ...data,
+                        id
+                    }
+                })
+        })}
 
         return {
             loaded,
             fetchProducts,
+            fetchOrders,
             handleRegisterProduct,
             getStorage,
             editProduct,
